@@ -17,6 +17,10 @@ from users import bp as users_bp
 
 app.register_blueprint(users_bp)
 
+from books import bp as books_bp
+
+app.register_blueprint(books_bp)
+
 
 @app.route("/")
 def index():
@@ -35,7 +39,7 @@ def image(image_id):
     print(img)
     print(app.config['UPLOAD_FOLDER'])
     return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               img.filename)
+                               img.file_name)
 
 
 # python -m venv ve

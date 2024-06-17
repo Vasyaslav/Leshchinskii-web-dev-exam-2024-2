@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Создание рецензии</h3>
+<form method="post">
+    <div class="mb-3">
+        <label for="review_rating" class="form-label">Ваша оценка</label>
+        <select name="review_rating" id="review_rating" class="form-control" required>
+            {% for rating in ratings %}
+            <option value="{{ rating }}">{{ ratings[rating] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="review_text" class="form-label">Ваша рецензия</label>
+        <textarea class="form-control" cols="30" rows="7" name="review_text" id="review_text"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
+{% endblock %}

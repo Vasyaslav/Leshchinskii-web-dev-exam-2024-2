@@ -12,3 +12,8 @@
 .footer {
     width: 100%;
 }
+
+.img {
+    max-width: 200px;
+    max-height: 400px;
+}

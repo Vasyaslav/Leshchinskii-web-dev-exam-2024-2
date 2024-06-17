@@ -32,6 +32,9 @@ class User(UserMixin):
         self.user_login = user_login
         self.role_id = role_id
 
+    def is_moderator(self):
+        return self.role_id == current_app.config["MODER_ROLE_ID"]
+
     def is_admin(self):
         return self.role_id == current_app.config["ADMIN_ROLE_ID"]
 
@@ -66,8 +69,9 @@ def check_rights(action):
                     )
                     user = cursor.fetchone()
             if not current_user.can(action, user):
+                print(action, current_user.id)
                 flash("Недостаточно прав для доступа к этой странице", "warning")
-                return redirect(url_for("users.index"))
+                return redirect(url_for("index"))
             return function(*args, **kwargs)
 
         return wrapper
@@ -86,7 +90,7 @@ def auth():
         with db_connector.connect().cursor(named_tuple=True, buffered=True) as cursor:
             print(login)
             cursor.execute(
-                "SELECT id, login, role_id FROM users WHERE login = %s AND password_hash = SHA2(%s, 256)",
+                "SELECT id, login, role_id FROM users WHERE login = %s AND pass_hash = SHA2(%s, 256)",
                 (login, password),
             )
             print(cursor.statement)
@@ -104,5 +108,6 @@ def auth():
 @bp.route("/logout")
 def logout():
     # Деавторизация пользователя
+    print(current_user)
     logout_user()
     return redirect(url_for("index"))

@@ -1,0 +1,86 @@
+{% macro book_form(action, genres, book_data='', book_genres_id='') %}
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="book_name" class="form-label">Название книги</label>
+        {% if action == "new" %}
+        <input type="text" name="book_name" id="book_name" class="form-control" maxlength="45" required>
+        {% else %}
+        <input type="text" name="book_name" id="book_name" class="form-control" maxlength="45"
+            value="{{ book_data.name }}" required>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="book_author" class="form-label">Автор книги</label>
+        {% if action == "new" %}
+        <input type="text" name="book_author" id="book_author" class="form-control" maxlength="45" required>
+        {% else %}
+        <input type="text" name="book_author" id="book_author" class="form-control" maxlength="45"
+            value="{{ book_data.author }}" required>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="book_genre" class="form-label">Жанры</label>
+        <select name="book_genre" id="book_genre" class="form-control" multiple required>
+            {% for genre in genres %}
+            {% if action == "edit" and genre.id in book_genres_id %}
+            <option value="{{ genre.id }}" selected>{{ genre.genre }}</option>
+            {% else %}
+            <option value="{{ genre.id }}">{{ genre.genre }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="book_publisher" class="form-label">Издатель книги</label>
+        {% if action == "new" %}
+        <input type="text" name="book_publisher" id="book_publisher" class="form-control" maxlength="45" required>
+        {% else %}
+        <input type="text" name="book_publisher" id="book_publisher" class="form-control" maxlength="45"
+            value="{{ book_data.publisher }}" required>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="book_year" class="form-label">Год выхода книги</label>
+        {% if action == "new" %}
+        <input type="number" name="book_year" id="book_year" class="form-control" required>
+        {% else %}
+        <input type="number" name="book_year" id="book_year" class="form-control" value="{{ book_data.year }}" required>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="book_volume" class="form-label">Количество страниц в книге</label>
+        {% if action == "new" %}
+        <input type="number" name="book_volume" id="book_volume" class="form-control" min="1" required>
+        {% else %}
+        <input type="number" name="book_volume" id="book_volume" class="form-control" min="1"
+            value="{{ book_data.volume }}" required>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="book_description" class="form-label">Краткое описание</label>
+        {% if action == "new" %}
+        <textarea class="form-control" cols="30" rows="7" name="book_description" id="book_description"
+            required></textarea>
+        {% else %}
+        <textarea class="form-control" cols="30" rows="7" name="book_description" id="book_description"
+            required>{{ book_data.description }}</textarea>
+        {% endif %}
+    </div>
+
+    {% if action == "new" %}
+    <div class="mb-3">
+        <label for="book_img" class="form-label">Изображение товара</label>
+        <input class="form-control" type="file" name="book_img" id="book_img" required>
+    </div>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    {% else %}
+    <button type="submit" class="btn btn-info">Редактировать</button>
+    {% endif %}
+</form>
+{% endmacro %}

@@ -2,11 +2,11 @@
 
 {% block content %}
 <h3 class="text-center">
-    Добро пожаловать в интернет-магазин Технарь!
+    Добро пожаловать в электронную библиотеку!
 </h3>
-<p class="text-center">На нашем сайте вы сможете подобрать и приобрести электронную технику.</p>
+<p class="text-center">На нашем сайте вы сможете посмотреть множество интерсных книг.</p>
 {% if current_user.is_authenticated and current_user.can('create') %}
-<div class="text-center"><a class="btn btn-success" href="{{ url_for('products.new_product') }}">Добавить Книгу</a>
+<div class="text-center"><a class="btn btn-success" href="{{ url_for('books.new') }}">Добавить Книгу</a>
 </div>
 {% endif %}
 {% endblock %}

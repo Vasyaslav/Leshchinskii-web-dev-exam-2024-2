@@ -5,7 +5,7 @@
 function modalShown(event) {
     let button = event.relatedTarget;
     let bookId = button.dataset.bookId;
-    let newUrl = `/books/${bookId}/delete_book`;
+    let newUrl = `/books/${bookId}/delete`;
     let form = document.getElementById('deleteModalForm');
     form.action = newUrl;
 }

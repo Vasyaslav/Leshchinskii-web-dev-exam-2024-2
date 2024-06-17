@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container bg-info-subtle py-2 rounded mb-4">
+    <h2>
+        {{ book.name }}
+    </h2>
+    {% if current_user.is_authenticated and current_user.can("update_book")%}
+    <div class="mb-3">
+        <a class="btn btn-info" href="{{ url_for('books.edit', book_id=book.id) }}">Редактировать</a>
+        {% if current_user.is_authenticated and current_user.can("delete_book")%}
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+            data-book-id="{{ book.id }}">Удалить</button>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% if image %}
+    <img class="img-fluid img mb-3" src="{{ url_for('image', image_id=image.id) }}"
+        alt="Здесь могла быть картинка, но её нет.">
+    {% endif %}
+    <h4>
+        Автор: {{ book.author }}
+    </h4>
+    <h4>
+        Жанры:
+        <ul>
+            {% for genre in genres %}
+            <li>{{ genre.genre }}</li>
+            {% endfor %}
+        </ul>
+    </h4>
+    <h4>
+        Год выхода: {{ book.year }}
+    </h4>
+    <h4>
+        Издатель: {{ book.publisher }}
+    </h4>
+    <h4>
+        Кол-во страниц: {{ book.volume }}
+    </h4>
+    <h4 class="mb-1">Описание:</h4>
+    <p>{{book.description}}</p>
+</div>
+
+<div class="container bg-success-subtle rounded pb-2 mb-4">
+    {% if current_user.is_authenticated %}
+    <h3>Ваша рецензия</h3>
+    {% if current_user_review %}
+    <p>{{ current_user_review.text }}</p>
+    {% else %}
+    <a class="btn btn-info" href="{{ url_for('books.review', user_id=current_user.id, book_id=book.id) }}">Написать
+        рецензию</a>
+    {% endif %}
+    {% endif %}
+</div>
+
+<div class="container bg-info-subtle rounded">
+    <h3>Рецензии</h3>
+    {% for review in reviews %}
+    <div class="container bg-succes-subtle rounded">
+        <h4>{{ review.surname }} {{ review.name }} {{ review.patronymic }}</h4>
+        <p>Оценка: {{ ratings[review.rating] }}</p>
+        <p>{{ review.text }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Удаление книги</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить данную книгу?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                <form method="post" id="deleteModalForm">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='book_delete_modal.js') }}"></script>
+{% endblock %}

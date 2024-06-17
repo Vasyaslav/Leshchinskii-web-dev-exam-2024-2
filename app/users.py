@@ -50,7 +50,7 @@ def reg():
             connection = db_connector.connect()
             with connection.cursor(named_tuple=True) as cursor:
                 query = (
-                    "INSERT INTO users (login, password_hash, first_name, middle_name, last_name, role_id) VALUES "
+                    "INSERT INTO users (login, pass_hash, first_name, middle_name, last_name, role_id) VALUES "
                     "(%(login)s, SHA2(%(password)s, 256), %(first_name)s, %(middle_name)s, %(last_name)s, 1)"
                 )
                 cursor.execute(query, user_data)
