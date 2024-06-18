@@ -11,12 +11,15 @@ class UsersPolicy:
 
     def add_review(self):
         return current_user.is_authenticated
+    
+    def update_review(self):
+        return current_user.is_admin() or current_user.is_moderator() or current_user.id == self.user.id
 
     def delete_user(self):
         return current_user.is_admin() or current_user.id == self.user.id
     
     def update_book(self):
-        return current_user.is_admin()
+        return current_user.is_admin() or current_user.is_moderator()
 
     def delete_book(self):
         return current_user.is_admin()

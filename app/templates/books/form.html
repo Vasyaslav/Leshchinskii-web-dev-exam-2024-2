@@ -46,9 +46,10 @@
     <div class="mb-3">
         <label for="book_year" class="form-label">Год выхода книги</label>
         {% if action == "new" %}
-        <input type="number" name="book_year" id="book_year" class="form-control" required>
+        <input type="number" name="book_year" id="book_year" class="form-control" min="1" required>
         {% else %}
-        <input type="number" name="book_year" id="book_year" class="form-control" value="{{ book_data.year }}" required>
+        <input type="number" name="book_year" id="book_year" class="form-control" value="{{ book_data.year }}" min="1"
+            required>
         {% endif %}
     </div>
 

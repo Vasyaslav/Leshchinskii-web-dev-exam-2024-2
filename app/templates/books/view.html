@@ -42,25 +42,28 @@
     <p>{{book.description}}</p>
 </div>
 
-<div class="container bg-success-subtle rounded pb-2 mb-4">
-    {% if current_user.is_authenticated %}
+{% if current_user.is_authenticated %}
+<div class="container bg-success-subtle rounded py-1 mb-4">
     <h3>Ваша рецензия</h3>
     {% if current_user_review %}
-    <p>{{ current_user_review.text }}</p>
+    <p class="mb-1">Оценка: {{ current_user_review.rating }}</p>
+    <p class="mb-1">Текст: {{ current_user_review.text }}</p>
+    <a class="btn btn-info"
+        href="{{ url_for('reviews.edit', user_id=current_user.id, book_id=book.id) }}">Редактировать</a>
     {% else %}
-    <a class="btn btn-info" href="{{ url_for('books.review', user_id=current_user.id, book_id=book.id) }}">Написать
+    <a class="btn btn-info" href="{{ url_for('reviews.new', user_id=current_user.id, book_id=book.id) }}">Написать
         рецензию</a>
     {% endif %}
-    {% endif %}
 </div>
+{% endif %}
 
-<div class="container bg-info-subtle rounded">
+<div class="container bg-info-subtle rounded py-1">
     <h3>Рецензии</h3>
     {% for review in reviews %}
-    <div class="container bg-succes-subtle rounded">
+    <div class="container bg-success-subtle rounded mb-3">
         <h4>{{ review.surname }} {{ review.name }} {{ review.patronymic }}</h4>
-        <p>Оценка: {{ ratings[review.rating] }}</p>
-        <p>{{ review.text }}</p>
+        <p class="mb-1">Оценка: {{ ratings[review.rating] }}</p>
+        <p class="mb-1">Текст рецензии: {{ review.text }}</p>
     </div>
     {% endfor %}
 </div>

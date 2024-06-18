@@ -1,10 +1,32 @@
 {% extends 'base.html' %}
 
+{% from 'books/pagination.html' import pagination %}
+
 {% block content %}
 <h3 class="text-center">
     Добро пожаловать в электронную библиотеку!
 </h3>
 <p class="text-center">На нашем сайте вы сможете посмотреть множество интерсных книг.</p>
+<div class="container d-flex flex-column mb-3">
+    {% for book in books_data %}
+    <a href="{{url_for('books.view', book_id=books_data[book]['id'])}}"
+        class="link-dark link-underline link-underline-opacity-0 mb-3">
+        <div class="row bg-info-subtle rounded">
+            <div class="column col-sm-4 text-center text-sm-start ">{{ book }}</div>
+            <div class="column col-sm-4 text-center text-sm-start">Жанры:{% for genre in books_data[book]['genres'] %}
+                {{
+                genre }}{% endfor %}
+            </div>
+            <div class="column col-sm-4 text-center text-sm-start">Год выхода: {{ books_data[book]["year"] }}</div>
+            <div class="column col-sm-6 text-center text-sm-start">Количество оценок: {{
+                books_data[book]["reviews_data"].count }}</div>
+            <div class="column col-sm-6 text-center text-sm-start">Средняя оценка: {{
+                books_data[book]["reviews_data"].avg }}</div>
+        </div>
+    </a>
+    {% endfor %}
+    {{ pagination(request.endpoint, page, page_count, pages) }}
+</div>
 {% if current_user.is_authenticated and current_user.can('create') %}
 <div class="text-center"><a class="btn btn-success" href="{{ url_for('books.new') }}">Добавить Книгу</a>
 </div>

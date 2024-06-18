@@ -57,7 +57,7 @@ def reg():
                 print(cursor.statement)
                 connection.commit()
             flash("Учетная запись успешно создана", "success")
-            return redirect(url_for("users.index"))
+            return redirect(url_for("index"))
         except connector.errors.DatabaseError:
             flash(
                 "Произошла ошибка при создании записи. Проверьте, что все необходимые поля заполнены",

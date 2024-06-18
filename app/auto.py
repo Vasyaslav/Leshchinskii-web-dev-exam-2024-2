@@ -101,7 +101,7 @@ def auth():
             login_user(User(user.id, user.login, user.role_id), remember=remember_me)
             next_url = request.args.get("next", url_for("index"))
             return redirect(next_url)
-        flash("Invalid username or password", "danger")
+        flash("Невозможно аутентифицироваться с указанными логином и паролем", "danger")
     return render_template("auth.html")
 
 

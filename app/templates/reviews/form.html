@@ -1,20 +1,26 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h3>Создание рецензии</h3>
+{% macro review_form(action, ratings, review_data='') %}
 <form method="post">
     <div class="mb-3">
         <label for="review_rating" class="form-label">Ваша оценка</label>
         <select name="review_rating" id="review_rating" class="form-control" required>
             {% for rating in ratings %}
+            {% if action == 'edit' and review_data.rating == rating %}
+            <option value="{{ rating }}" selected>{{ ratings[rating] }}</option>
+            {% else %}
             <option value="{{ rating }}">{{ ratings[rating] }}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>
     <div class="mb-3">
-        <label for="review_text" class="form-label">Ваша рецензия</label>
+        <label for="review_text" class="form-label">Текст вашей рецензия</label>
+        {% if action == 'new' %}
         <textarea class="form-control" cols="30" rows="7" name="review_text" id="review_text"></textarea>
+        {% else %}
+        <textarea class="form-control" cols="30" rows="7" name="review_text"
+            id="review_text">{{review_data.text}}</textarea>
+        {% endif %}
     </div>
     <button type="submit" class="btn btn-success">Сохранить</button>
 </form>
-{% endblock %}
+{% endmacro %}
